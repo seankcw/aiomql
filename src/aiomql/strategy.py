@@ -30,7 +30,6 @@ class Strategy(ABC):
     def __init__(self, *, symbol: Symbol, **kwargs):
         self.symbol = symbol
         self.current = 0
-        self.name = self.name or self.__class__.__name__
 
     def __repr__(self):
         return f"{self.name}({self.symbol!r})"

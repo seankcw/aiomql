@@ -17,8 +17,8 @@ class Config:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self, *, file: str = "",record_trades: bool = True, filename: str = "mt5.json",
-                 executor: Literal['thread', 'process'] = "thread", track_trades: bool = True, base_dir: str | Path = "",win_percentage: float = 0.85,
+    def __init__(self, *, file: str = "", record_trades: bool = True, filename: str = "mt5.json",
+                 executor: Literal['thread', 'process'] = "thread", track_trades: bool = True, base_dir: str | Path = "", win_percentage: float = 0.85,
                  records_dir: str = "trade_records", records_update_time: datetime.time = datetime.time(hour=23, minute=59, second=59)):
         self.record_trades = record_trades
         self.track_trades = self.record_trades and track_trades

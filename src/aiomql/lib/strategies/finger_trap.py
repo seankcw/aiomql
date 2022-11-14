@@ -133,17 +133,16 @@ class FingerTrap(Strategy):
     async def trade(self):
         while True:
             try:
-                # await self.confirm_trend()
-                # if not self.entry.new:
-                #     await asyncio.sleep(0.5)
-                #     continue
-                #
-                # if self.entry.type is None:
-                #     await self.sleep(self.entry.time)
-                #     continue
+                await self.confirm_trend()
+                if not self.entry.new:
+                    await asyncio.sleep(0.5)
+                    continue
 
-                await self.trader.place_trade(order=OrderType.BUY, points=50, params=self.parameters)
-                # await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
+                if self.entry.type is None:
+                    await self.sleep(self.entry.time)
+                    continue
+
+                await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
                 await self.sleep(self.entry.time)
             except Exception as err:
                 logger.error(f"Error: {err}\t Symbol: {self.symbol}")

@@ -21,7 +21,7 @@ class Base:
 
     @property
     def class_vars(self):
-        return {key: value for key, value in self.__class__.__dict__.items() if not (key.startswith("__") and key.endswith("__"))}
+        return {key: value for key, value in self.__class__.__dict__.items() if key in self.__class__.__annotations__}
 
     @property
     def dict(self):

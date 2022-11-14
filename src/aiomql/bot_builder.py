@@ -52,7 +52,7 @@ class Bot:
         if self.config.record_trades:
             self.create_records_dir()
 
-        print("Starting thr Bot")
+        print("Starting the Bot")
         self.executor.execute()
 
     def add_strategy(self, strategy: type(Strategy)):

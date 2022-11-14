@@ -1,7 +1,7 @@
 import logging
 import datetime
 
-from ... import dict_to_string
+from ...utils import dict_to_string
 from ...result import TradeResult
 from ...symbol import Symbol
 from ...trader import Trader
@@ -55,5 +55,4 @@ class DealTrader(Trader):
             TradeResult(parameters=params, request=self.order, result=result, check=check, time=datetime.datetime.utcnow().timestamp())
             return
         except Exception as err:
-            print(err)
             logger.error(f"{err}\tparameters: {dict_to_string(params)}\tsymbol: {self.order.symbol}")

@@ -14,7 +14,6 @@ class Market(ABC):
         self.mt5 = mt5
         self.trading_symbols: set[type(Symbol)] = set()
         self.symbol = self.symbol
-        self.name = self.name or self.__class__.__name__
 
     def select_all(self):
         self.trading_symbols = {self.symbol(name=symbol) for symbol in self.symbols}

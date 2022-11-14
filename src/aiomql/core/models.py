@@ -262,6 +262,7 @@ class TradePosition(Base):
     comment: str
     external_id: str
 
+
 class TradeDeal(Base):
     ticket: int
     order: int

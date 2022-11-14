@@ -2,10 +2,13 @@ import datetime
 from functools import cache
 import csv
 import asyncio
+from logging import getLogger
 
 from .core.models import OrderSendResult, OrderCheckResult
 from .order import Order
 from .config import Config
+
+logger = getLogger()
 
 
 class TradeResult:
@@ -41,4 +44,4 @@ class TradeResult:
                     writer.writeheader()
                 writer.writerow(self.data)
         except Exception as err:
-            print(err)
+            logger.error(err)
