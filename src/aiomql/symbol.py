@@ -55,3 +55,7 @@ class Symbol(SymbolInfo):
     async def ticks_from_pos(self, *, date_from: datetime | int, count: int = 100, flags: CopyTicks = CopyTicks.COPY_TICKS_INFO) -> DataFrame:
         ticks = await self.mt5.copy_ticks_from(self.name, date_from, count, flags)
         return DataFrame(ticks)
+
+    async def rates_from_range(self, *, time_frame: TimeFrame, utf_from: datetime, utc_to: datetime) -> DataFrame:
+        rates = await self.mt5.copy_rates_range(self.name, time_frame, utf_from, utc_to)
+        return DataFrame(rates)
