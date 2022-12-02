@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 from ..traders.simple_deal_trader import DealTrader
-from ...symbol import Symbol
+from ..symbols import SyntheticSymbol, ForexSymbol
 from ...strategy import Strategy, Entry
 from ...core.constants import TimeFrame, OrderType
 from ...candle import Candle, Candles
@@ -37,8 +37,8 @@ class FTCandles(Candles):
 
 
 class FingerTrap(Strategy):
-    trend_time_frame: TimeFrame = TimeFrame.M30
-    entry_time_frame: TimeFrame = TimeFrame.M5
+    trend_time_frame: TimeFrame = TimeFrame.M2
+    entry_time_frame: TimeFrame = TimeFrame.M1
     trend: int = 4
     fast_period: int = 8
     slow_period: int = 34
@@ -48,10 +48,11 @@ class FingerTrap(Strategy):
     entry: Entry = Entry(time=trend_time_frame.time)
     name = "FingerTrap"
 
-    def __init__(self, *, symbol: type(Symbol), params: dict | None = None):
+    def __init__(self, *, symbol: SyntheticSymbol | ForexSymbol, params: dict | None = None):
         super().__init__(symbol=symbol)
         self.trader = DealTrader(symbol=self.symbol)
         self.parameters = params or {}
+        self.current_time = 0
 
     @property
     def parameters(self):
@@ -73,12 +74,12 @@ class FingerTrap(Strategy):
     async def get_support(self):
         if self.entry.trend == 'uptrend':
             sup = self.prices.get_swing_low()
-            tick = await self.symbol.get_tick()
+            tick = await self.symbol.info_tick()
             self.entry.points = (tick.ask - sup.low) / self.symbol.point
 
         else:
             sup = self.prices.get_swing_high()
-            tick = await self.symbol.get_tick()
+            tick = await self.symbol.info_tick()
             self.entry.points = (sup.high - tick.bid) / self.symbol.point
 
     async def check_trend(self):
@@ -103,22 +104,24 @@ class FingerTrap(Strategy):
         self.entry = Entry(current=fast[0].time, time=self.trend_time_frame.time)
 
     async def confirm_trend(self):
+        # try:
         await self.check_trend()
+
         if self.entry.trend == 'notrend':
-            if self.current == self.entry.current:
+            if self.current_time == self.entry.current:
                 self.entry.new = False
                 return
-            self.current = self.entry.current
+            self.current_time = self.entry.current
             return
 
         self.prices: FTCandles = await self.get_ema(time_frame=self.entry_time_frame, period=self.fast_period)
         entry_candle: FTCandle = self.prices[1]
 
-        if self.current == entry_candle.time:
+        if self.current_time == entry_candle.time:
             self.entry.new = False
             return
         else:
-            self.current = entry_candle.time
+            self.current_time = entry_candle.time
 
         if self.entry.trend == 'uptrend' and entry_candle.ema_crossover():
             await self.get_support()
@@ -135,7 +138,7 @@ class FingerTrap(Strategy):
             try:
                 await self.confirm_trend()
                 if not self.entry.new:
-                    await asyncio.sleep(0.5)
+                    await asyncio.sleep(0.3)
                     continue
 
                 if self.entry.type is None:
