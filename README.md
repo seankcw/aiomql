@@ -2,7 +2,7 @@
 ![GitHub](https://img.shields.io/github/license/ichinga-samuel/aiomql?style=plastic)
 ![GitHub issues](https://img.shields.io/github/issues/ichinga-samuel/aiomql?style=plastic)
 ![PyPI](https://img.shields.io/pypi/v/aiomql)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ichinga-samuel/aiomql/push)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ichinga-samuel/aiomql/Push)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/ichinga-samuel/aiomql)
 
 ## Key Features
