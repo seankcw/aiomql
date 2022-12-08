@@ -259,7 +259,7 @@ class SymbolInfo(Base):
     trade_freeze_level: int
     trade_exemode: SymbolTradeExecution
     swap_mode: SymbolSwapMode
-    swap_rollover3days: DayOfWeek
+    swap_rollover3days: int  # Should use - DayOfWeek
     margin_hedged_use_leg: bool
     expiration_mode: int
     filling_mode: int
