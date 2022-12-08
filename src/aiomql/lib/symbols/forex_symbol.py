@@ -21,7 +21,7 @@ class ForexSymbol(Symbol):
 
     async def dollar_to_currency(self, amount: float) -> float:
         if (symbol := f"{self.currency_profit}USD") in self.dollar_pairs:
-            tick = await self.get_tick(symbol)
+            tick = await self.info_tick(name=symbol)
             return amount / tick.ask
-        tick = await self.get_tick(f"USD{self.currency_profit}")
+        tick = await self.info_tick(name=f"USD{self.currency_profit}")
         return amount * tick.ask

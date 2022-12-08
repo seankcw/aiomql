@@ -1,4 +1,3 @@
-import datetime
 import os
 from pathlib import Path
 from sys import _getframe
@@ -8,9 +7,35 @@ from functools import cache
 
 
 class Config:
-    login: int
+    """
+    Set config variables for your bot
+
+    Keyword Args:
+        file (str): config file
+        record_trades (bool): If true record trade in a csv file defaults to True
+        filename (str): Name of config file, defaults to "mt5.json"
+        executor: Type of pool executor, can be thread or process defaults to thread
+        records_dir(str): Name of directory for saving trades, defaults to trade records
+        win_percentage (float): Percentage of expected profit that counts as a win
+        base_dir (str | Path): Base directory for saving outputs.
+
+    Attributes:
+        file (str):
+        record_trades (bool):
+        filename (str):
+        executor (str):
+        records_dir (str):
+        win_percentage (float):
+        base_dir (str | Path):
+        account_number (int): Broker account number for
+        password (str): Broker password
+        server (str): Broker server
+        path (str): Path to terminal file
+    """
+    account_number: int
     password: str
     server: str
+    path: str
 
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, '_instance'):
@@ -18,17 +43,16 @@ class Config:
         return cls._instance
 
     def __init__(self, *, file: str = "", record_trades: bool = True, filename: str = "mt5.json",
-                 executor: Literal['thread', 'process'] = "thread", track_trades: bool = True, base_dir: str | Path = "", win_percentage: float = 0.85,
-                 records_dir: str = "trade_records", records_update_time: datetime.time = datetime.time(hour=23, minute=59, second=59)):
+                 executor: Literal['thread', 'process'] = "thread", base_dir: str | Path = "", win_percentage: float = 0.85,
+                 records_dir: str = "trade_records", **kwargs):
         self.record_trades = record_trades
-        self.track_trades = self.record_trades and track_trades
-        self.records_update_time = records_update_time
         self.executor = executor
         self.filename = filename
         self.win_percentage = win_percentage
         self.file = file
         self.base_dir = base_dir or Path.cwd()
         self.records_dir = self.base_dir / records_dir
+        self.set_attributes(**kwargs)
         self.load_json()
 
     def __setattr__(self, key, value):
@@ -60,15 +84,24 @@ class Config:
             return
         fh = open(self.file, mode='r')
         data = json.load(fh)
+        fh.close()
         [setattr(self, key, value) for key, value in data.items()]
 
     @cache
     def load(self, file: str):
         fh = open(file, mode='r')
         data = json.load(fh)
-        [setattr(self, key, value) for key, value in data.items()]
+        self.set_attributes(**data)
 
     def set_attributes(self, **kwargs):
+        """
+        Add attributes to the config object
+        Args:
+            **kwargs: Set attributes as keyword arguments
+
+        Returns:
+
+        """
         [setattr(self, i, j) for i, j in kwargs.items()]
 
     @staticmethod

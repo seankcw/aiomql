@@ -47,7 +47,7 @@ class MetaTrader(Platform):
         return await asyncio.to_thread(self._symbol_info, symbol)
 
     async def symbol_info_tick(self, symbol: str) -> Platform.platform.Tick:
-        return await asyncio.to_thread(self._symbol_info, symbol)
+        return await asyncio.to_thread(self._symbol_info_tick, symbol)
 
     async def symbol_select(self, symbol: str, enable: bool) -> bool:
         return await asyncio.to_thread(self._symbol_select, symbol, enable)
@@ -73,8 +73,8 @@ class MetaTrader(Platform):
     async def copy_ticks_from(self, symbol: str, date_from: datetime | int, count: int, flags: CopyTicks):
         return await asyncio.to_thread(self._copy_ticks_from, symbol, date_from, count, flags)
 
-    async def copy_ticks_from_range(self, symbol: str, date_from: datetime | int, date_to: datetime | int, flags: CopyTicks):
-        return await asyncio.to_thread(self._copy_ticks_from_range, symbol, date_from, date_to, flags)
+    async def copy_ticks_range(self, symbol: str, date_from: datetime | int, date_to: datetime | int, flags: CopyTicks):
+        return await asyncio.to_thread(self._copy_ticks_range, symbol, date_from, date_to, flags)
 
     async def orders_total(self) -> int:
         return await asyncio.to_thread(self._orders_total)
