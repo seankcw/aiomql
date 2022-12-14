@@ -358,46 +358,52 @@ class TradeOrder(Base):
         ticket: int
         time_setup: int
         time_setup_msc: int
+        time_done: int
+        time_done_msc: int
         time_expiration: int
         type: int
         type_time: int
         type_filling: int
         state: int
         magic: int
-        volume_current: float
+        reason: int
+        position_id: int
+        position_by_id: int
         volume_initial: float
+        volume_current: float
         price_open: float
         sl: float
         tp: float
         price_current: float
-        price_open: float
-        price_stop_limit: float
-        position_id: int
-        position_by_id: int
-        reason: str
+        price_stoplimit: float 
         symbol: str
+        comment: str
+        external_id: str
     """
     ticket: int
     time_setup: int
     time_setup_msc: int
+    time_done: int
+    time_done_msc: int
     time_expiration: int
     type: int
     type_time: int
     type_filling: int
     state: int
     magic: int
-    volume_current: float
+    reason: int
+    position_id: int
+    position_by_id: int
     volume_initial: float
+    volume_current: float
     price_open: float
     sl: float
     tp: float
     price_current: float
-    price_open: float
-    price_stop_limit: float
-    position_id: int
-    position_by_id: int
-    reason: str
+    price_stoplimit: float
     symbol: str
+    comment: str
+    external_id: str
 
 
 class TradeRequest(Base):
