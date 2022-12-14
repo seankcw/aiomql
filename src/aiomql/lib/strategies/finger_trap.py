@@ -2,7 +2,8 @@ import asyncio
 import logging
 
 from ..traders.simple_deal_trader import DealTrader
-from ..symbols import SyntheticSymbol, ForexSymbol
+from ..symbols.forex_symbol import ForexSymbol
+from ..symbols.synthetic_symbol import SyntheticSymbol
 from ...strategy import Strategy, Entry
 from ...core.constants import TimeFrame, OrderType
 from ...candle import Candle, Candles
