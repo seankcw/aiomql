@@ -3,9 +3,9 @@ import logging
 from aiomql import Config
 from aiomql.account import account
 from aiomql.terminal import terminal
-from aiomql.lib import FingerTrap
+from aiomql.lib.strategies.finger_trap import FingerTrap
 from aiomql import Bot, Positions
-from aiomql.lib import SyntheticMarket, SyntheticSymbol
+from aiomql.lib.symbols.synthetic_symbol import SyntheticSymbol
 from aiomql import Records
 import asyncio
 

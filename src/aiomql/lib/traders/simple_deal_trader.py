@@ -6,7 +6,8 @@ from ...symbol import Symbol
 from ...trader import Trader
 from ...core.constants import OrderType
 
-from ..symbols import ForexSymbol, SyntheticSymbol
+from ..symbols.forex_symbol import ForexSymbol
+from ..symbols.synthetic_symbol import SyntheticSymbol
 
 logger = logging.getLogger()
 
