@@ -5,6 +5,11 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ichinga-samuel/aiomql/Push)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/ichinga-samuel/aiomql)
 
+## Installation
+```bash
+pip install aiomql
+```
+
 ## Key Features
 - Asynchronous Python Library For MetaTrader 5
 - Build bots for trading in different financial markets using a bot factory
