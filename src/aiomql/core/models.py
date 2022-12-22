@@ -420,16 +420,14 @@ class TradeRequest(Base):
         tp: float
         price: float
         deviation: float
-        stop_limit: float
+        stoplimit: float
         type_time: OrderTime
         type_filling: OrderFilling
         expiration: int
         position: int
         position_by: int
         comment: str
-        magic: int
-        deviation: int
-        comment: str
+        magic: int  
     """
     action: TradeAction
     type: OrderType
@@ -440,7 +438,7 @@ class TradeRequest(Base):
     tp: float
     price: float
     deviation: float
-    stop_limit: float
+    stoplimit: float
     type_time: OrderTime
     type_filling: OrderFilling
     expiration: int
@@ -448,8 +446,6 @@ class TradeRequest(Base):
     position_by: int
     comment: str
     magic: int
-    deviation: int
-    comment: str
 
 
 class OrderCheckResult(Base):

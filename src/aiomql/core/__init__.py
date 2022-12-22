@@ -11,28 +11,34 @@ class Base:
     Args:
         **kwargs: Object attributes and values as keyword arguments
     """
+
     def __init__(self, **kwargs):
         self.set_attributes(**kwargs)
 
     def __repr__(self):
-        values = ', '.join(f"{name}={value!r}" for name, value in self.__dict__.items())
+        values = ', '.join(f"{name}={value!r}" for name,
+                           value in self.__dict__.items())
         return f"{self.__class__.__name__}({values})"
 
     def set_attributes(self, **kwargs):
-        """
-        Set keyword arguments as object attributes
-        Args:
-            **kwargs: Object attributes and values as keyword arguments
-        Returns:
+        [setattr(self, i, j) for i, j in kwargs.items()]
 
-        Raises:
-            AttributeError: When assigning an attribute that does not belong to the class or any parent class
-        """
-        for i, j in kwargs.items():
-            try:
-                setattr(self, i, self.annotations[i](j))
-            except KeyError:
-                raise AttributeError(f"Attribute {i} does not belong to class {self.__class__.__name__}")
+    # def set_attributes(self, **kwargs):
+    #     """
+    #     Set keyword arguments as object attributes
+    #     Args:
+    #         **kwargs: Object attributes and values as keyword arguments
+    #     Returns:
+
+    #     Raises:
+    #         AttributeError: When assigning an attribute that does not belong to the class or any parent class
+    #     """
+    #     for i, j in kwargs.items():
+    #         try:
+    #             setattr(self, i, self.annotations[i](j))
+    #         except KeyError:
+    #             raise AttributeError(
+    #                 f"Attribute {i} does not belong to class {self.__class__.__name__}")
 
     @property
     @cache
@@ -75,7 +81,7 @@ class Base:
             dict: A dictionary of class attributes
 
         """
-        return {key: value for key, value in self.__dict__.items() | self.class_vars.items() if key not in self.Config.exclude}
+        return {key: value for key, value in self.__dict__.items()}  # | self.class_vars.items() if key not in self.Config.exclude}
 
     @dict.setter
     def dict(self, value: Mapping | Iterable[Iterable]):
@@ -96,14 +102,16 @@ class Base:
         Attributes:
             exclude (set): A set of class attributes that will be excluded from the dict property
         """
-        exclude = {'retcode', 'comment', 'request', 'mt5', 'retcode_external', "Config", "request_id"}
+        exclude = {'retcode', 'comment', 'request', 'mt5',
+                   'retcode_external', "Config", "request_id"}
 
 
 class BaseMeta(type):
     def __new__(mcs, cls_name, bases, cls_dict):
         platform = cls_dict.get('platform')
         defaults = {} if platform is None else platform.__dict__
-        defaults = {f'_{key}': value for key, value in defaults.items() if not key.startswith('_')}
+        defaults = {f'_{key}': value for key,
+                    value in defaults.items() if not key.startswith('_')}
         cls_dict |= defaults
         return super().__new__(mcs, cls_name, bases, cls_dict)
 

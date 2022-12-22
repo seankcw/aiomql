@@ -67,8 +67,10 @@ class Records:
         Returns: return rows of updated trades as an iterable of dicts
 
         """
-        rows = {row['deal']: row for row in sorted((row for row in rows), key=lambda row: float(row['time']))}
-        open_rows = [(key, value) for key, value in rows.items() if value.get('closed').title() == "False"]
+        rows = {row['deal']: row for row in sorted(
+            (row for row in rows), key=lambda row: float(row['time']))}
+        open_rows = [(key, value) for key, value in rows.items()
+                     if value.get('closed').title() == "False"]
         if len(open_rows) == 0:
             return [{}]
 
